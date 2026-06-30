@@ -1,0 +1,104 @@
+{
+  "candidate_id": "C001",
+  "full_name": "Jonathan Smith",
+  "emails": [
+    "jsmith@work.com",
+    "john.smith@gmail.com"
+  ],
+  "phones": [
+    "+14155550101"
+  ],
+  "location": null,
+  "headline": null,
+  "links": null,
+  "current_title": "Senior SWE",
+  "current_company": "Acme Corporation",
+  "linkedin_url": null,
+  "github_username": null,
+  "summary": null,
+  "skills": [
+    {
+      "name": "Docker",
+      "confidence": 0.7,
+      "sources": [
+        "ats"
+      ]
+    },
+    {
+      "name": "JavaScript",
+      "confidence": 0.7,
+      "sources": [
+        "ats"
+      ]
+    },
+    {
+      "name": "Python",
+      "confidence": 0.8,
+      "sources": [
+        "ats",
+        "notes"
+      ]
+    }
+  ],
+  "experience": [
+    {
+      "company": "Acme Corporation",
+      "title": "Senior SWE",
+      "start": "0000-01",
+      "end": null,
+      "summary": null
+    },
+    {
+      "company": "Acme Corp",
+      "title": "Software Engineer",
+      "start": "0000-01",
+      "end": null,
+      "summary": null
+    }
+  ],
+  "education": [],
+  "recruiter_notes": null,
+  "confidence": 0.88,
+  "provenance": [
+    {
+      "field": "candidate_id",
+      "source": "csv",
+      "method": "direct"
+    },
+    {
+      "field": "full_name",
+      "source": "ats",
+      "method": "direct"
+    },
+    {
+      "field": "current_title",
+      "source": "ats",
+      "method": "direct"
+    },
+    {
+      "field": "current_company",
+      "source": "ats",
+      "method": "direct"
+    },
+    {
+      "field": "emails",
+      "source": "ats",
+      "method": "direct"
+    },
+    {
+      "field": "phones",
+      "source": "ats",
+      "method": "direct"
+    },
+    {
+      "field": "skills",
+      "source": "ats",
+      "method": "direct"
+    },
+    {
+      "field": "experience",
+      "source": "ats",
+      "method": "direct"
+    }
+  ]
+}

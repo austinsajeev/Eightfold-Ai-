@@ -1,0 +1,11 @@
+{
+  "full_name": "Jonathan Smith",
+  "primary_email": "jsmith@work.com",
+  "phone": "+14155550101",
+  "skills": [
+    "Docker",
+    "JavaScript",
+    "Python"
+  ],
+  "confidence": 0.88
+}

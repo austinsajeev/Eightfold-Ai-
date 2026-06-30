@@ -1,0 +1,8 @@
+{
+  "applicant_name": "Jonathan Smith",
+  "contact_email": "jsmith@work.com",
+  "mobile": "(415) 555-0101",
+  "job_title": "Senior SWE",
+  "employer": "Acme Corporation",
+  "skills_raw": "Python, JavaScript, Docker"
+}

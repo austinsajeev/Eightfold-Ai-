@@ -1,0 +1,19 @@
+{
+  "fields": [
+    {"path": "id", "type": "string", "from": "candidate_id", "required": true},
+    {"path": "name", "type": "string", "from": "full_name", "required": true},
+    {"path": "email", "type": "string", "from": "emails[0]"},
+    {"path": "emails", "type": "array", "from": "emails"},
+    {"path": "phone", "type": "string", "from": "phones[0]", "normalize": "E164"},
+    {"path": "phones", "type": "array", "from": "phones", "normalize": "E164"},
+    {"path": "company", "type": "string", "from": "current_company"},
+    {"path": "title", "type": "string", "from": "current_title"},
+    {"path": "skills", "type": "array", "from": "skills[].name", "normalize": "canonical"},
+    {"path": "experience", "type": "array", "from": "experience"},
+    {"path": "location", "type": "string", "from": "location"},
+    {"path": "headline", "type": "string", "from": "headline"}
+  ],
+  "include_confidence": true,
+  "include_provenance": true,
+  "on_missing": "null"
+}

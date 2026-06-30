@@ -1,0 +1,7 @@
+pydantic>=2.0
+phonenumbers
+pdfplumber
+requests
+python-dateutil
+rapidfuzz
+pytest>=7.0
