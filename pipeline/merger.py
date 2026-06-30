@@ -240,8 +240,8 @@ def _experience_match_score(left: ExperienceEntry, right: ExperienceEntry) -> fl
     return float(fuzz.token_sort_ratio(left_key, right_key))
 
 
-def _normalize_entry_dates(entry: ExperienceEntry) -> tuple[str, str | None]:
-    start = normalize_date(entry.start) or entry.start
+def _normalize_entry_dates(entry: ExperienceEntry) -> tuple[str | None, str | None]:
+    start = normalize_date(entry.start) if entry.start else None
     end = normalize_date(entry.end) if entry.end else None
     return start, end
 
@@ -257,8 +257,9 @@ def _merge_experience_group(entries: list[ExperienceEntry]) -> tuple[ExperienceE
         ends.append(end)
         summaries.append(entry.summary or "")
 
-    date_conflict = len(set(starts)) > 1 or len({end for end in ends if end is not None}) > 1
-    merged_start = min(starts)
+    date_conflict = len({s for s in starts if s}) > 1 or len({end for end in ends if end is not None}) > 1
+    valid_starts = [s for s in starts if s]
+    merged_start = min(valid_starts) if valid_starts else None
     merged_end: str | None
     if any(end is None for end in ends):
         merged_end = None

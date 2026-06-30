@@ -7,8 +7,10 @@ from pathlib import Path
 from fpdf import FPDF
 from fpdf.enums import XPos, YPos
 
-# Rename to <YourFullName>_<YourEmail>_Eightfold.pdf before submission.
-OUTPUT = Path(__file__).resolve().parent.parent / "Shaji_P_George_Eightfold.pdf"
+OUTPUT = (
+    Path(__file__).resolve().parent.parent
+    / "AustinSajeevAbraham_austin.sajeev@btech.christuniversity.in_Eightfold.pdf"
+)
 
 
 class DesignPDF(FPDF):
@@ -34,7 +36,7 @@ class DesignPDF(FPDF):
         self.cell(
             self.content_width,
             4,
-            "Shaji P George | Eightfold Engineering Intern Assignment | Step 1",
+            "Austin Sajeev Abraham | Eightfold Engineering Intern Assignment | Step 1",
             new_x=XPos.LMARGIN,
             new_y=YPos.NEXT,
         )

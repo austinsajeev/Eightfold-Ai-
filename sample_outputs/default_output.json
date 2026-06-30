@@ -44,14 +44,14 @@
     {
       "company": "Acme Corporation",
       "title": "Senior SWE",
-      "start": "0000-01",
+      "start": null,
       "end": null,
       "summary": null
     },
     {
       "company": "Acme Corp",
       "title": "Software Engineer",
-      "start": "0000-01",
+      "start": null,
       "end": null,
       "summary": null
     }

@@ -74,7 +74,7 @@ def _extract_experience_blocks(text: str) -> list[ExperienceEntry]:
             continue
         title = lines[0]
         company = lines[1] if len(lines) > 1 else ""
-        start = _to_year_month(range_match.group("start")) or "0000-01"
+        start = _to_year_month(range_match.group("start"))
         end = _to_year_month(range_match.group("end"))
         entries.append(
             ExperienceEntry(

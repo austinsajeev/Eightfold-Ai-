@@ -75,7 +75,6 @@ def extract(path: str) -> RawExtract:
             entry = ExperienceEntry(
                 company=company or "",
                 title=title or "",
-                start="0000-01",
             )
             result["experience"] = [entry]
             add_provenance(provenance, "experience", "csv", "direct")

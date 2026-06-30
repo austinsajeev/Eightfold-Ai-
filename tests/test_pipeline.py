@@ -86,6 +86,56 @@ def test_phone_normalization() -> None:
     assert normalize_phone("garbage123") is None
 
 
+def test_date_normalization() -> None:
+    from pipeline.normalizers import normalize_date
+
+    assert normalize_date("2020-06") == "2020-06"
+    assert normalize_date("06/2020") == "2020-06"
+    assert normalize_date("2020") == "2020-01"
+    assert normalize_date("0000-01") is None
+    assert normalize_date("present") is None
+    assert normalize_date("not-a-date") is None
+
+
+def test_projector_validates_output_types() -> None:
+    profile = CandidateProfile(
+        full_name="Jonathan Smith",
+        emails=["jsmith@work.com"],
+        phones=["+14155550101"],
+        skills=[],
+        overall_confidence=0.8,
+    )
+    config = OutputConfig(
+        fields=[
+            FieldSpec(path="full_name", type="string", required=True),
+            FieldSpec(path="phone", from_="phones[0]", type="string", normalize="E164"),
+            FieldSpec(path="skills", from_="skills[].name", type="string[]", normalize="canonical"),
+        ],
+        include_confidence=True,
+        include_provenance=False,
+        on_missing="null",
+    )
+
+    output = project(profile, config)
+
+    assert output["full_name"] == "Jonathan Smith"
+    assert output["phone"] == "+14155550101"
+    assert output["skills"] == []
+
+
+def test_projector_rejects_invalid_output_type() -> None:
+    profile = CandidateProfile(full_name="John Smith", overall_confidence=0.8)
+    config = OutputConfig(
+        fields=[FieldSpec(path="full_name", type="number")],
+        include_confidence=False,
+        include_provenance=False,
+        on_missing="null",
+    )
+
+    with pytest.raises(ValueError, match="expected number"):
+        project(profile, config)
+
+
 def test_conflict_resolution() -> None:
     ats_extract = {
         "_source": "ats_json",

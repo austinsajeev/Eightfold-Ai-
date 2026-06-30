@@ -44,6 +44,18 @@ _YEAR_MONTH_RE = re.compile(r"^(\d{4})-(\d{2})$")
 _YEAR_ONLY_RE = re.compile(r"^(\d{4})$")
 _MM_YYYY_RE = re.compile(r"^(\d{1,2})/(\d{4})$")
 _PRESENT_RE = re.compile(r"^(present|current)$", re.IGNORECASE)
+_MIN_YEAR = 1900
+_MAX_YEAR = 2100
+
+
+def _valid_year_month(year: int, month: int) -> bool:
+    return _MIN_YEAR <= year <= _MAX_YEAR and 1 <= month <= 12
+
+
+def _format_year_month(year: int, month: int) -> str | None:
+    if not _valid_year_month(year, month):
+        return None
+    return f"{year:04d}-{month:02d}"
 
 
 def normalize_phone(raw: str, default_country: str = "US") -> str | None:
@@ -72,24 +84,21 @@ def normalize_date(raw: str) -> str | None:
     year_month_match = _YEAR_MONTH_RE.fullmatch(text)
     if year_month_match:
         year, month = int(year_month_match.group(1)), int(year_month_match.group(2))
-        if 1 <= month <= 12:
-            return f"{year:04d}-{month:02d}"
-        return None
+        return _format_year_month(year, month)
 
     mm_yyyy_match = _MM_YYYY_RE.fullmatch(text)
     if mm_yyyy_match:
         month, year = int(mm_yyyy_match.group(1)), int(mm_yyyy_match.group(2))
-        if 1 <= month <= 12:
-            return f"{year:04d}-{month:02d}"
-        return None
+        return _format_year_month(year, month)
 
     year_only_match = _YEAR_ONLY_RE.fullmatch(text)
     if year_only_match:
-        return f"{int(year_only_match.group(1)):04d}-01"
+        year = int(year_only_match.group(1))
+        return _format_year_month(year, 1)
 
     try:
-        parsed = date_parser.parse(text, default=datetime(1900, 1, 1))
-        return f"{parsed.year:04d}-{parsed.month:02d}"
+        parsed = date_parser.parse(text, default=datetime(2000, 1, 1))
+        return _format_year_month(parsed.year, parsed.month)
     except (ValueError, OverflowError, TypeError):
         return None
 
@@ -199,11 +208,12 @@ def normalize_extract(extract: dict) -> dict:
     normalized_experience: list[ExperienceEntry] = []
     for entry in experience:
         if isinstance(entry, ExperienceEntry):
-            start = normalize_date(entry.start) or entry.start
+            start = normalize_date(entry.start) if entry.start else None
             end = normalize_date(entry.end) if entry.end else None
             normalized_experience.append(entry.model_copy(update={"start": start, "end": end}))
         else:
-            start = normalize_date(str(entry.get("start", ""))) or str(entry.get("start", "0000-01"))
+            start_raw = entry.get("start")
+            start = normalize_date(str(start_raw)) if start_raw else None
             end_raw = entry.get("end")
             end = normalize_date(str(end_raw)) if end_raw else None
             normalized_experience.append(

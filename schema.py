@@ -25,7 +25,7 @@ class CanonicalSkill(BaseModel):
 class ExperienceEntry(BaseModel):
     company: str
     title: str
-    start: str  # YYYY-MM
+    start: str | None = None  # YYYY-MM; null when unknown
     end: str | None = None  # YYYY-MM
     summary: str | None = None
 

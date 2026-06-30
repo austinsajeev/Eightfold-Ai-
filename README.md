@@ -2,6 +2,8 @@
 
 A multi-source candidate data pipeline that ingests recruiter CSV exports, ATS JSON, GitHub profiles, resume PDFs, and recruiter notes; normalizes and merges them into a single canonical `CandidateProfile`; and projects that profile into a configurable JSON output schema with per-field provenance and confidence scoring.
 
+**Repository:** https://github.com/austinsajeev/Eightfold-Ai-
+
 ## Setup
 
 ```bash
@@ -119,7 +121,7 @@ Skills use source-trust baselines (`ats`/`github` 0.7, `csv` 0.65, `resume` 0.6,
 
 ### Projector as a separate layer
 
-The merger produces one canonical internal model (`CandidateProfile`). The projector is a pure, side-effect-free transformation that maps that model into whatever output schema a downstream consumer needs — field renames, array projections, normalization (E.164 phones, canonical skill names), and missing-field policies (`null`, `omit`, `error`). This separation keeps merge logic stable while allowing different consumers (ATS export, search index, UI) to request different shapes without touching core pipeline code.
+The merger produces one canonical internal model (`CandidateProfile`). The projector is a pure, side-effect-free transformation that maps that model into whatever output schema a downstream consumer needs — field renames, array projections, normalization (E.164 phones, canonical skill names), and missing-field policies (`null`, `omit`, `error`). Projected output is validated against each field's configured type before returning. This separation keeps merge logic stable while allowing different consumers (ATS export, search index, UI) to request different shapes without touching core pipeline code.
 
 ## Known limitations / descoped items
 
