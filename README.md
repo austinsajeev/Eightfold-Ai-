@@ -123,6 +123,14 @@ Skills use source-trust baselines (`ats`/`github` 0.7, `csv` 0.65, `resume` 0.6,
 
 The merger produces one canonical internal model (`CandidateProfile`). The projector is a pure, side-effect-free transformation that maps that model into whatever output schema a downstream consumer needs — field renames, array projections, normalization (E.164 phones, canonical skill names), and missing-field policies (`null`, `omit`, `error`). Projected output is validated against each field's configured type before returning. This separation keeps merge logic stable while allowing different consumers (ATS export, search index, UI) to request different shapes without touching core pipeline code.
 
+## Key design decision (proud of)
+
+**Separating merge from projection.** The pipeline always builds one canonical `CandidateProfile` internally, then the projector reshapes it at runtime from `OutputConfig`. That means the same merged truth can produce the full default schema (with provenance and confidence), an assignment-style export (`primary_email`, `phone`, `skills[]`), or any other consumer shape — without duplicating merge logic or re-running extractors. Merge rules stay stable; only the final JSON view changes.
+
+## Edge case handled
+
+**Conflicting sources and missing inputs.** On the John demo, CSV has `John Smith` while ATS has `Jonathan Smith` — the merge picks **ATS** for scalar fields like name (`test_conflict_resolution`). For `emails` and `phones`, values are **unioned and deduplicated** after normalization (E.164 for phones), so nothing is silently dropped. If a source file is missing or corrupt, ingest returns a partial extract and the pipeline **does not crash** (`test_missing_source_graceful`). Unknown experience dates are left **`null`** rather than inventing placeholder values like `0000-01`.
+
 ## Known limitations / descoped items
 
 - **LinkedIn** — not scraped; LinkedIn URLs may be extracted from resume text but profile data is not fetched (scraping restrictions and ToS).
