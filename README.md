@@ -4,6 +4,10 @@ A multi-source candidate data pipeline that ingests recruiter CSV exports, ATS J
 
 **Repository:** https://github.com/austinsajeev/Eightfold-Ai-
 
+## Demo video
+
+[~2 min screen recording](https://drive.google.com/file/d/1pSN759dvYa9Rv9JslEGVJc4x7RrJwc5p/view) — pipeline run (default + custom config), design decision, edge case, and tests.
+
 ## Setup
 
 ```bash
